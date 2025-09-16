@@ -1,0 +1,8 @@
+# Example values for Terraform variables
+
+domain_name    = "n8n.example.com"
+hosted_zone_id = "Z1234567890ABCDEFG"
+
+db_name = "n8ndb"
+db_username    = "n8nadmin"
+db_password    = "your-secure-password"

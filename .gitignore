@@ -1,0 +1,26 @@
+    # Local Terraform directories
+    infra/.terraform/
+    .terraform/
+
+    # Terraform state files
+    infra/*.tfstate
+    infra/*.tfstate.*
+
+    # Files containing sensitive data (e.g., variable files)
+    infra/*.tfvars
+    infra/*.tfvars.json
+
+
+    # Terraform override files
+    infra/override.tf
+    infra/override.tf.json
+    infra/*_override.tf
+    infra/*_override.tf.json
+
+    # Terraform plan files
+    infra/*.tfplan
+    infra/*.tfplan.json
+
+    # Terraform CLI configuration files
+    infra/.terraformrc
+    infra/terraform.rc
