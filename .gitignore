@@ -1,26 +1,27 @@
-    # Local Terraform directories
-    infra/.terraform/
-    .terraform/
+# Terraform files
+infra/.terraform/
+infra/.terraform.lock.hcl
+infra/*.tfstate
+infra/*.tfstate.*
+infra/*.tfvars
+infra/*.tfvars.json
+infra/crash.log
+infra/crash.*.log
+infra/*.tfplan
+infra/*.tfplan.*
+infra/override.tf
+infra/override.tf.json
+infra/*_override.tf
+infra/*_override.tf.json
+infra/.terraformrc
+infra/terraform.rc
+infra/ec2-key/*.pem
 
-    # Terraform state files
-    infra/*.tfstate
-    infra/*.tfstate.*
-
-    # Files containing sensitive data (e.g., variable files)
-    infra/*.tfvars
-    infra/*.tfvars.json
-
-
-    # Terraform override files
-    infra/override.tf
-    infra/override.tf.json
-    infra/*_override.tf
-    infra/*_override.tf.json
-
-    # Terraform plan files
-    infra/*.tfplan
-    infra/*.tfplan.json
-
-    # Terraform CLI configuration files
-    infra/.terraformrc
-    infra/terraform.rc
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

@@ -1,8 +1,45 @@
-# Example values for Terraform variables
+# Copy this file to terraform.tfvars and customize as needed
 
-domain_name    = "n8n.example.com"
-hosted_zone_id = "Z1234567890ABCDEFG"
+# AWS Region
+aws_region = "us-east-1"
 
+# Project name (used for resource naming)
+project_name = "n8n-project"
+
+# Environment
+environment = "dev"
+
+# Your public IP address for secure access (replace with your actual IP)
+# Find your IP with: curl ifconfig.me
+# SECURITY: Use /32 for single IP, or /24 for IP range, avoid 0.0.0.0/0 in production
+my_ip = "123.456.789.0/32"
+
+# Quick setup: Uncomment the line below to use your current IP automatically
+# my_ip = "$(curl -s ifconfig.me)/32"
+
+# Instance sizes (adjust based on your needs)
+instance_type = "t3.micro"        # EC2 instance type
+db_instance_class = "db.t3.micro" # RDS instance type
+
+# Database name
 db_name = "n8ndb"
-db_username    = "n8nadmin"
-db_password    = "your-secure-password"
+
+# SSH Key Configuration
+ssh_public_key_path = "~/.ssh/n8n_key.pub"
+
+# Alternative: Use existing SSH key
+# ssh_public_key_path = "~/.ssh/id_rsa.pub"
+
+# Domain Configuration (HTTPS/SSL)
+# Leave domain_name empty to use IP-based access only
+domain_name = ""  # e.g., "yourdomain.com"
+subdomain = "n8n"  # Will create n8n.yourdomain.com
+
+# Set to true if you want Terraform to create a new Route 53 hosted zone
+# Set to false if you manage your domain's DNS elsewhere (you'll need to create DNS records manually)
+create_route53_zone = false
+
+# Examples:
+# domain_name = "example.com"           # Creates n8n.example.com
+# domain_name = "app.example.com"       # Creates n8n.app.example.com  
+# subdomain = "workflows"               # Creates workflows.yourdomain.com

@@ -1,0 +1,299 @@
+{
+  "name": "Pioneer AI - Get Site Map",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "642636e6-5a81-4e83-af7d-e020a538bb57",
+              "name": "sitemapURL",
+              "value": "https://pioneerdev.ai/sitemap-index.xml",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        192,
+        32
+      ],
+      "id": "719a36ff-b098-4eca-80fa-5c17308859b6",
+      "name": "Set SitemapURL",
+      "alwaysOutputData": false,
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "options": {
+          "ignoreAttrs": true,
+          "mergeAttrs": true,
+          "normalize": true,
+          "normalizeTags": true,
+          "trim": true
+        }
+      },
+      "type": "n8n-nodes-base.xml",
+      "typeVersion": 1,
+      "position": [
+        752,
+        16
+      ],
+      "id": "5cd8199e-ea52-44ed-bd19-698a8f1a4749",
+      "name": "XML"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "sitemapindex",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        16
+      ],
+      "id": "e3522aae-cea3-4eeb-83d5-8fdc485417c0",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "urlset.url",
+        "include": "selectedOtherFields",
+        "fieldsToInclude": "urlset.url",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1728,
+        16
+      ],
+      "id": "65e30b05-5990-4888-b5e3-eaa6f687396f",
+      "name": "Split Out2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.xml",
+      "typeVersion": 1,
+      "position": [
+        1504,
+        16
+      ],
+      "id": "37cb48a2-2eab-4587-8c78-2bdf90d0f4ff",
+      "name": "XML1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "03130ecc-a15d-475a-bb6b-ba7297b8c4ac",
+              "name": "message",
+              "value": "=error",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        752,
+        224
+      ],
+      "id": "4750d4c1-f83f-459d-a47d-cef006b72a6c",
+      "name": "Return Response - Error"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "76a16ca9-5d64-4cf6-85d7-22adddd94f9f",
+              "name": "urls",
+              "value": "={{ $json[\"urlset.url\"].map(item => item.loc) }}\n",
+              "type": "string"
+            },
+            {
+              "id": "f0fed19d-7f6b-434d-ae86-11833315231d",
+              "name": "message",
+              "value": "success",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1968,
+        16
+      ],
+      "id": "58b37621-ae27-4a3b-bf54-d366c76920c7",
+      "name": "Return Response - Success"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.sitemapURL }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        464,
+        32
+      ],
+      "id": "bda6b257-43ed-43d5-9bae-6012abd458ed",
+      "name": "Get SiteMap - Index",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.loc }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1280,
+        16
+      ],
+      "id": "9d188f59-a33c-47f4-86f8-11fc31a8e16d",
+      "name": "Get SiteMap - Data"
+    },
+    {
+      "parameters": {
+        "path": "215e48c4-064a-4bf2-b821-1debbe0bcd4e",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        16,
+        32
+      ],
+      "id": "fc0264d6-fe8e-41c6-9e2b-a69a1c3ed104",
+      "name": "Webhook",
+      "webhookId": "215e48c4-064a-4bf2-b821-1debbe0bcd4e"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Set SitemapURL": {
+      "main": [
+        [
+          {
+            "node": "Get SiteMap - Index",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "XML": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Get SiteMap - Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out2": {
+      "main": [
+        [
+          {
+            "node": "Return Response - Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "XML1": {
+      "main": [
+        [
+          {
+            "node": "Split Out2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get SiteMap - Index": {
+      "main": [
+        [
+          {
+            "node": "XML",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Return Response - Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get SiteMap - Data": {
+      "main": [
+        [
+          {
+            "node": "XML1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Set SitemapURL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "55b13284-231a-4843-97cf-5018bf55ad1f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2c5bd7435a2ac26043cdaa43c5de3de3f1ddcc0f4c12cc1b440b679ef671002a"
+  },
+  "id": "9Bm65gMnN3MQc3Ha",
+  "tags": []
+}
